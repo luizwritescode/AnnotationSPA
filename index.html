@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App de Testes</title>
+    <!-- Add any necessary stylesheets here -->
+    <link rel="stylesheet" href="css/styles.css">
+
+	<script src="https://cdn.jsdelivr.net/npm/jszip@3/dist/jszip.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/file-saver"></script>
+</head>
+<body>
+    <div id="menu-screen">
+		<div class="content">
+			
+			<header>
+
+				<div style="display: flex; width: 100%; justify-content: center;">
+					<h1 class="title">Anotações em Imagem</h1>
+				</div>
+
+				
+			</header>
+
+			<div style="display: flex; width: 50%; text-align: center; align-self: center;">
+				<p>Descrição - Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sint porro debitis voluptatibus, et ipsum expedita quas odit quisquam ducimus corrupti rem voluptatem ratione officia modi architecto nobis nesciunt laudantium!</p>
+			</div>
+			<div class="main-content">
+				
+				<div class="menu-options">
+					
+					<button id="start-trial-button" class="btn btn-large">Iniciar Teste</button>
+					<button id="start-button" class="btn btn-large">Anotação Livre</button>
+					<button id="settings-button" class="btn btn-large">Configurações</button>
+				</div>
+			</div>
+			<footer>
+				<p>Dataset:</p>
+			</footer>
+		</div>
+    </div>
+    <div id="annotate-screen" style="display: none;">
+		<div class="content">
+
+			<header>
+
+				<div style="display:flex; flex: 1;justify-content: center;">
+
+					<p id="timer" style="display: flex;">00:00:00</p>
+
+				</div>
+				<div style="display:flex;justify-content: center; width: 100%; flex:12;">
+					<h5 class="title">Anotações em Imagem</h1>
+
+				</div>
+
+				<div style="flex:1;">
+					<button id="finish-button" class="btn">Finalizar</button>
+				</div>
+
+			</header>
+			
+
+			<div style="display: flex; flex-direction: row;flex:12;	">
+
+				<aside id="annotation-list">
+					
+					<!-- <div class="annotation-list-item">
+						<span>Rebarba #1</span>
+
+						<div>
+							<button class="btn">Editar</button>
+							<button class="btn">Excluir</button>
+
+						</div>
+					
+					</div> -->
+				</aside>
+				<div class="annotate-content">
+					
+					<div id="image-container" class="image-container">
+						<img id="annotation-image" src="" alt="Imagem a ser anotada">
+						<div id="annotation-area"></div>
+					</div>
+					
+				</div>
+				<aside id="control-section">
+					<div class="annotation-list-item">
+						<p id="image-counter">Imagem 1/10</p>
+
+						<button id="previous-button" class="btn">Anterior</button>
+						<button id="next-button" class="btn">Próxima</button>
+
+
+						
+					</div>
+					
+				</aside>
+			</div>
+			<footer class="annotation-classes">
+				<div id="class-buttons"></div>
+			</footer>
+		</div>
+    </div>
+	<div id="form-screen" style="display: none;">
+		<header>
+			
+			<div style="display:flex; flex: 1;justify-content: center;align-items: center;"">
+				<button id="back-button" class="btn">Voltar</button>
+			</div>
+			<div style="display:flex;justify-content: center; width: 100%; flex:12;">
+				<h1 class="title">Formulário de Candidato</h1>
+			</div>
+			<div style="display:flex; flex: 1">
+			</div>
+
+		</header>
+
+		<div class="center">
+			<p>Coletamos algumas informações básicas para efetuar os testes.</p>
+		</div>
+
+			<div class="center">
+
+				<div class="form-bg">
+					<form id="candidate-form" action="#" method="POST" >
+						<div class="form-group">
+							<label for="nome">Nome:</label>
+							<input type="text" id="nome" name="nome" required>
+					</div>
+					<div class="form-group">
+						<label for="idade">Idade:</label>
+						<input type="number" id="idade" name="idade" required>
+					</div>
+					<div class="form-group">
+						<label for="genero">Gênero:</label>
+						<select id="genero" name="genero" required>
+							<option value="masculino">Masculino</option>
+							<option value="feminino">Feminino</option>
+							<option value="outro">Não Binário</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="escolaridade">Escolaridade:</label>
+						<select id="escolaridade" name="escolaridade" required>
+							<option value="fundamental">Fundamental</option>
+							<option value="medio">Médio</option>
+							<option value="superior">Superior</option>
+							<option value="pos-graduacao">Pós-graduação</option>
+						</select>
+					</div>
+					<div style="margin-top: 20px">
+					
+					
+						<label style="width:50%;" for="doencas">Doenças relacionadas à vista</label>
+						<p>Se houver, liste abaixo qualquer condição na sua visão que possa prejudicar seu desempenho ao anotar imagens</p>
+						<input type="text" id="doencas" name="doencas">
+						
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="center">
+			<button id="submit-candidate-form-button" class="btn btn-large">Próximo</button>
+		</div>
+	</div>
+	
+	<div id="tutorial-screen" style="display: none;">
+		<header>
+			
+			<div style="display:flex; flex: 3;justify-content: center;align-items: center;">
+				<button id="back-button" class="btn">Voltar</button>
+			</div>
+			<div style="display:flex;justify-content: center; width: 100%; flex:12;">
+				<h1 class="title">Tutorial</h1>
+			</div>
+			<div style="display:flex; flex: 3;justify-content: center;align-items: center;">
+				<button id="end-tutorial1-button" class="btn btn-large" style="display: flex;">Continuar</button>
+				<button id="next-tutorial2-button" class="btn btn-large" style="display: none;">Continuar</button>
+			</div>
+
+		</header>
+
+		<div id="tutorial-text" style="display: block;">
+			
+				
+		</div>
+			
+		<div id="tutorial-text-control" class="row m-5">
+			<button id="prev-tutorial-button" class="btn btn-large" disabled>Anterior</button>
+			
+			<button id="next-tutorial-button" class="btn btn-large">Próximo</button>
+		</div>
+		
+		<div id="annotation-container-tutorial" style="display: flex; flex-direction: row;flex:12;	">
+
+			<aside id="annotation-list-tutorial">
+			</aside>
+			<div class="annotate-content">
+				
+				<div id="image-container-tutorial" class="image-container">
+					<img id="annotation-image-tutorial" src="img/tutorial/tutorial1.jpg" alt="Imagem a ser anotada">
+					<div id="annotation-area-tutorial"></div>
+				</div>
+				
+			</div>
+			<aside id="control-section-tutorial">
+				<div class="annotation-list-item" style="display: none;">
+					<p id="image-counter-tutorial">Imagem 1/2</p>
+
+					<button id="previous-image-button-tutorial" class="btn">Anterior</button>
+					<button id="next-image-button-tutorial" class="btn">Próxima</button>
+
+
+					
+				</div>
+				
+			</aside>
+			
+		</div>
+		
+		<div class="center mv-10">
+			<div id="class-buttons-tutorial">
+			</div>
+		</div>
+
+		<div id="class-slideshow-tutorial" class="hidden">
+			
+				<h2 id="class-slideshow-name">Rebarba</h2>
+
+				<div class="container">
+					<p id="class-slideshow-description">Descrição Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati modi asperiores minus natus accusantium, debitis eveniet illum rerum. Nihil eveniet eum sapiente obcaecati hic iure officiis sunt est, modi laborum.</p>
+				</div>
+				
+				<div class="row">
+					<button id="prev-image-slideshow-button" class="btn">
+						<span>&larr;</span>
+						
+					</button>
+					<img src="img/tutorial/rebarba/rebarba0.jpg" class="slideshow-image" alt="">
+					<button id="next-image-slideshow-button" class="btn">
+						<span>&rarr;</span>
+					</button>
+				</div>
+
+				<div id="slideshow-image-counter">
+					<span>1/5</span>
+				</div>
+
+
+
+		</div>
+
+
+		<div id="tutorial-end" class="hidden">
+		
+				<div class="center">
+					<h1>Parabéns!</h1>
+					<p>Você concluiu o tutorial. Clique para iniciar o teste.</p>
+				</div>
+				<div class="center">
+					<button id="start-test-button" class="btn btn-large">Iniciar Teste</button>
+				</div>
+
+		</div>
+		
+	</div>
+
+		<!-- Add any necessary scripts here -->
+		<script src="js/annotation.js"></script>
+		<script src="js/tutorial.js"></script>
+		<script src="js/form.js"></script>
+
+    <script src="main.js"></script>
+</body>
+</html>
