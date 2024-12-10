@@ -8,23 +8,20 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "**/dataset/train/**",
+      "**/dataset/test/**",
+      "**/dataset/valid/**",
+      "**/dataset/test+valid/**"
     ],
-	"redirects": [
-	  {
-		"source": "**",
-		"destination": "/app.html",
-		"type": 301
-	  }
-	],
-    "rewrites": [
+    "rewrites": [            
 	  {
 		"source": "/",
-		"function": "app"
+		"function": "app.html"
 	  },
 	  {
 		"source": "**",
-		"function": "app"
+		"function": "app.html"
 	  }
     ]
   },
