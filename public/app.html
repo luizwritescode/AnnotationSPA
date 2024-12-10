@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App de Testes</title>
+    <!-- Add any necessary stylesheets here -->
+    <link rel="stylesheet" href="./css/styles.css">
+
+	<script src="https://cdn.jsdelivr.net/npm/jszip@3/dist/jszip.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/file-saver"></script>
+
+	<!-- FIREBASE -->
+	<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+	<!-- <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script> -->
+
+
+</head>
+<body>
+    <div id="menu-screen">
+		<div class="content">
+			
+			<header>
+
+				<div style="display: flex; width: 100%; justify-content: center;">
+					<h1 class="title">Anotações em Imagem</h1>
+				</div>
+
+				
+			</header>
+
+			<div class="div-bg" style="display: flex; width: 50%; text-align: center; align-self: center;">
+				<p>Aplicativo para anotações em imagens dividido em três etapas: Primeiro, preencha o formulário. Depois, complete um breve tutorial de como usar o aplicativo. Então, teste sua capacidade de recohecimento e generalização anotando defeitos em peças industriais.</p>
+			</div>
+			<div class="main-content">
+				
+				<div class="menu-options">
+					
+					<button id="start-trial-button" class="btn btn-large">Começar</button>
+					<button id="start-button" class="btn btn-large hidden">Anotação Livre</button>
+					<button id="settings-button" class="btn btn-large hidden">Configurações</button>
+				</div>
+			</div>
+			<footer>
+				<div class="column">
+					<!-- <p>O uso desse aplicativo é feito no modo TELA CHEIA. Para isso, aperte F11</p> -->
+					<div class="connection-status"></div>
+				</div>
+			</footer>
+		</div>
+    </div>
+    <div id="annotate-screen" style="display: none;">
+		<div class="content">
+
+			<header>
+
+				<div style="display:flex; flex: 1;justify-content: center;">
+
+					<p id="timer" style="display: none;">00:00:00</p>
+
+				</div>
+				<div style="display:flex;justify-content: center; width: 100%; flex:12;">
+					<h5 class="title">Anotações em Imagem</h1>
+
+				</div>
+
+				<div style="flex:1;">
+					<button id="finish-button" class="btn">Finalizar</button>
+				</div>
+
+			</header>
+			
+
+			<div style="display: flex; flex-direction: row;flex:12;	">
+
+				<aside id="annotation-list">
+					
+					<!-- <div class="annotation-list-item">
+						<span>Rebarba #1</span>
+
+						<div>
+							<button class="btn">Editar</button>
+							<button class="btn">Excluir</button>
+
+						</div>
+					
+					</div> -->
+				</aside>
+				<div class="annotate-content">
+
+
+					
+					<div id="ground-truth-indicator"><h5>RESPOSTA</h5></div>
+					<div id="image-container" class="image-container">
+						<img id="annotation-image" src="" alt="Imagem a ser anotada">
+						<div id="annotation-area"></div>
+					</div>
+					
+				</div>
+				<aside id="control-section">
+					<div class="annotation-list-item">
+						<p id="image-counter">Imagem 1/10</p>
+
+						<button id="previous-button" class="btn">Anterior</button>
+						<button id="next-button" class="btn">Próxima</button>
+
+
+						
+					</div>
+					
+				</aside>
+			</div>
+			<footer class="annotation-classes">
+				<div id="class-buttons"></div>
+			</footer>
+		</div>
+    </div>
+	<div id="form-screen" style="display: none;">
+		<header>
+			
+			<div style="display:flex; flex: 1;justify-content: center;align-items: center;"">
+				<button class="btn hidden">Voltar</button>
+			</div>
+			<div style="display:flex;justify-content: center; width: 100%; flex:12;">
+				<h1 class="title">Formulário de Candidato</h1>
+			</div>
+			<div style="display:flex; flex: 1">
+			</div>
+
+		</header>
+
+		<div class="center">
+			<p>Coletamos algumas informações básicas para efetuar os testes.</p>
+		</div>
+
+			<div class="center">
+
+				<div class="form-bg">
+					<form id="candidate-form" action="#" method="POST" >
+						<div class="form-group">
+							<label for="nome">Nome:</label>
+							<input type="text" id="nome" name="nome" required>
+					</div>
+					<div class="form-group">
+						<label for="idade">Idade:</label>
+						<input type="number" id="idade" name="idade" required>
+					</div>
+					<div class="form-group">
+						<label for="genero">Gênero:</label>
+						<select id="genero" name="genero" required>
+							<option value=""></option>
+							<option value="masculino">Masculino</option>
+							<option value="feminino">Feminino</option>
+							<option value="outro">Não Binário</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="escolaridade">Escolaridade:</label>
+						<select id="escolaridade" name="escolaridade" required>
+							<option value=""></option>
+							<option value="fundamental">Fundamental</option>
+							<option value="medio">Médio</option>
+							<option value="superior">Superior</option>
+							<option value="pos-graduacao">Pós-graduação</option>
+						</select>
+					</div>
+					<!-- <div style="margin-top: 20px">
+					
+					
+						<label style="width:50%;" for="doencas">Doenças relacionadas à vista</label>
+						<p>Se houver, liste abaixo qualquer condição na sua visão que possa prejudicar seu desempenho ao anotar imagens</p>
+						<input type="text" id="doencas" name="doencas">
+						
+					</div> -->
+				</form>
+			</div>
+		</div>
+		<div class="center">
+			<button id="submit-candidate-form-button" class="btn btn-large">Próximo</button>
+		</div>
+	</div>
+	
+	<div id="tutorial-screen" style="display: none;">
+		<header>
+			
+			<div style="display:flex; flex: 3;justify-content: center;align-items: center;">
+				<button id="back-button" class="btn hidden">Voltar</button>
+			</div>
+			<div style="display:flex;justify-content: center; width: 100%; flex:12;">
+				<h1 class="title">Tutorial</h1>
+			</div>
+			<div style="display:flex; flex: 3;justify-content: center;align-items: center;">
+				<button id="end-tutorial1-button" class="btn btn-large" style="display: flex;" "disabled">Continuar</button>
+				<button id="next-tutorial2-button" class="btn btn-large hidden" disabled>Continuar</button>
+			</div>
+
+		</header>
+
+		<div id="tutorial-text" style="display: block;">
+			
+				
+		</div>
+			
+		<div id="tutorial-text-control" class="row m-5">
+			<button id="prev-tutorial-button" class="btn" disabled>Anterior</button>
+			
+			<button id="next-tutorial-button" class="btn">Próximo</button>
+		</div>
+		
+		<div id="annotation-container-tutorial" style="display: flex; flex-direction: row;flex:12;	">
+
+			<aside id="annotation-list-tutorial">
+			</aside>
+			<div class="annotate-content">
+				
+				<div id="image-container-tutorial" class="image-container">
+					<img id="annotation-image-tutorial" alt="Imagem a ser anotada">
+					<div id="annotation-area-tutorial"></div>
+				</div>
+				
+			</div>
+			<aside id="control-section-tutorial">
+				<div class="annotation-list-item" style="display: none;">
+					<p id="image-counter-tutorial">1/2</p>
+
+					<button id="previous-image-button-tutorial" class="btn">Anterior</button>
+					<button id="next-image-button-tutorial" class="btn">Próxima</button>
+
+
+					
+				</div>
+				
+			</aside>
+			
+		</div>
+		
+		<div class="center mv-10">
+			<div id="class-buttons-tutorial">
+			</div>
+		</div>
+
+		<div id="class-slideshow-tutorial" class="hidden">
+			
+				<h2 id="class-slideshow-name">Sem defeito</h2>
+
+				<div class="center">
+					<div class="div-bg container">
+						<p id="class-slideshow-description">Uma peça categorizada como "Sem defeito" apresenta uma superfície sem imperfeições. A superfície sem defeito é lisa e uniforme. A anotação para este defeito é feita delimitando a peça <span class='important-text'>INTEIRA</span> dentro da caixa. Cada peça só pode ter no máximo uma anotação "Sem defeito".</p>
+
+					</div>
+				</div>
+				
+				<div class="row">
+					<button id="prev-image-slideshow-button" class="btn">
+						<span>&larr;</span>
+						
+					</button>
+					<img src="img/tutorial/sem_defeito/sem_defeito0.jpg" class="slideshow-image" alt="">
+					<button id="next-image-slideshow-button" class="btn">
+						<span>&rarr;</span>
+					</button>
+				</div>
+
+				<div id="slideshow-image-counter">
+					<span>1/5</span>
+				</div>
+
+
+
+		</div>
+
+
+		<div id="tutorial1-end" class="hidden">
+			<div class="center">
+				<div class="div-bg container">	
+					
+					<p>
+
+						A pesquisa consiste em anotar imagens de peças industriais, identificando seus defeitos, ou a falta deles. Para isso, vamos demonstrar as cinco classes de defeito disponíveis para anotação. Cada imagem vai requerir pelo menos <span class="important-text">UMA OU MAIS</span> anotações a serem feitas. 
+					</p>
+				</div>
+			</div>
+			<div class="center row">
+				
+				<div class="column center">
+					<img src="img/tutorial/sem_defeito/sem_defeito0.jpg" alt="">
+					<p>Sem defeito</p>
+				</div>
+				<div class="column center">
+					<img src="img/tutorial/rebarba/rebarba0.jpg" alt="">
+					<p>Rebarba</p>
+				</div>
+				<div class="column center">
+					<img src="img/tutorial/nao_polida/nao_polida0.jpg" alt="">
+					<p>Não polida</p>
+				</div>
+				<div class="column center">
+					<img src="img/tutorial/rachadura/rachadura0.jpg" alt="">
+					<p>Rachadura</p>
+				</div>
+				<div class="column center">
+					<img src="img/tutorial/perfuracao/perfuracao0.jpg" alt="">
+					<p>Perfuração</p>
+				</div>
+
+					
+			</div>
+				<div class="center mv-10">
+
+					<button id="start-tutorial2-button" class="btn btn-large">Continuar</button>
+				</div>
+			
+		</div>
+
+
+		<div id="tutorial-end" class="hidden">
+		
+				<div class="center mv-10">
+					<h2>Parabéns!</h2>
+					<div class="div-bg container">
+
+						<p>Você concluiu o tutorial. Agora que sabe tanto como operar este aplicativo, quanto o objetivo da pesquisa, vamos verificar sua taxa de aprendizagem. Nesta próxima seção vamos pedir para você anotar cinco imagens pré-definidas como um exercício de fixação para o verdadeiro teste. Anote sem medo de errar pois sua performance aqui não será registrada. Para liberar o botão de Finalizar e começar o teste, faça pelo menos uma anotação em cada imagem.</p>
+						<br>
+						<p>Para agilizar o processo e facilitar o uso do aplicativo os seguintes atalhos serão abilitados</p>
+						<ul>
+							<li>Setas direcionais para navegar entre as imagens</li>
+							<li>Números de 1 a 5 para selecionar a classe de defeito</li>
+							<!-- <li>Tecla "D" para deletar a última anotação</li> -->
+						</ul>
+					</div>
+				</div>
+				
+				<div class="center">
+					<button id="start-training-button" class="btn btn-large">Iniciar Treinamento</button>
+				</div>
+
+		</div>
+
+		<div id="tutorial-arrow">&rarr;</div>
+		
+	</div>
+
+	<div id="training-end-screen" style="display:none">
+		
+		<div class="center mv-10">
+			<h2>Agora é a hora do teste</h2>
+			<div class="div-bg container">
+				<p class="center-text">Você concluiu o treinamento com sucesso. Agora vamos dar prosseguimento à pesquisa. Nesta próxima seção vamos pedir para você anotar cinquenta imagens escolhidas aleatóriamente do nosso banco de dados. Tenha muita atenção ao anotar as imagens porque os seus resultados vão ser de absoluta importância para pesquisa. Para liberar o botão de Finalizar e começar o teste, faça pelo menos uma anotação em cada imagem.</p>
+			</div>
+		</div>
+		
+		<div class="center">
+			<button id="start-test-button" class="btn btn-large">Iniciar Teste</button>
+		</div>
+
+	</div>
+	<script defer>
+		// Your web app's Firebase configuration
+		const firebaseConfig = {
+		  apiKey: "AIzaSyAE-tHAzx3wluNgoNlKx25B-vqva9Q6YWE",
+		  authDomain: "annotationspa.firebaseapp.com",
+		  projectId: "annotationspa",
+		  storageBucket: "annotationspa.appspot.com",
+		  messagingSenderId: "214122512009",
+		  appId: "1:214122512009:web:033c644313510f64f75058"
+		};
+	  
+		firebase.initializeApp(firebaseConfig);
+
+		var db = firebase.firestore();
+
+		if(location.hostname === "localhost" || location.hostname === "127.0.0.1"){
+			db.useEmulator("localhost", 8080);
+			console.log("Using database emulator");
+		}
+
+	  </script>
+
+		<!-- Add any necessary scripts here -->
+	<script defer src="js/utils.js"></script>
+	<script defer src="js/annotation.js"></script>
+	<script defer src="js/tutorial.js"></script>
+	<script defer src="js/form.js"></script>
+
+    <script defer src="js/main.js"></script>
+</body>
+</html>
