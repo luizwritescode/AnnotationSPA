@@ -40,7 +40,7 @@ app.use(basicAuth({
 app.get('*', (req, res) => {
 	// redirect to hosting index
 	console.log('redirecting to app.html');
-	res.redirect('http://localhost:5000/app.html');
+	res.redirect('/app.html');
 });
 
 exports.app = onRequest(app);
