@@ -10,7 +10,7 @@
 require("dotenv").config();
 
 const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+// const logger = require("firebase-functions/logger");
 
 // Create and deploy your first functions
 // https://firebase.google.com/docs/functions/get-started
@@ -20,27 +20,32 @@ const logger = require("firebase-functions/logger");
 //   response.send("Hello from Firebase!");
 // });
 
-const express = require('express');
-const basicAuth = require('express-basic-auth');
+const express = require("express");
+const basicAuth = require("express-basic-auth");
 
 const app = express();
 
 const myAuthorizer = (username, password) => {
-  const userMatches = basicAuth.safeCompare(username, process.env.CANDIDATE_USERNAME);
-  const passwordMatches = basicAuth.safeCompare(password, process.env.CANDIDATE_PASSWORD);
+  const userMatches = basicAuth.safeCompare(
+      username,
+      process.env.CANDIDATE_USERNAME);
+  const passwordMatches = basicAuth.safeCompare(
+      password,
+      process.env.CANDIDATE_PASSWORD,
+  );
 
   return userMatches & passwordMatches;
-}
+};
 
 app.use(basicAuth({
-	authorizer: myAuthorizer,
- 	challenge: true,
+  authorizer: myAuthorizer,
+  challenge: true,
 }));
 
-app.get('*', (req, res) => {
-	// redirect to hosting index
-	console.log('redirecting to app.html');
-	res.redirect('/app.html');
+app.get("*", (req, res) => {
+  // redirect to hosting index
+  console.log("redirecting to app.html");
+  res.redirect("/app.html");
 });
 
 exports.app = onRequest(app);
