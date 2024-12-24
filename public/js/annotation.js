@@ -917,6 +917,7 @@ function finishDrawing(event) {
 	// enable finish button if all images have annotations
 	if (checkIfFinished()) {
 		document.getElementById('finish-button').disabled = false;
+		modalAlert("Todas as imagens foram anotadas. Botão Finalizar liberado.");
 	}
 }
 
@@ -942,6 +943,9 @@ function finishAnnotating() {
 		modalAlert("Ainda existem imagens sem anotações. Por favor, anote todas as imagens antes de finalizar.");
 		return
 	}
+
+	// disable the finishe button so double clicking doesn't send the annotations twice
+	finishButton.disabled = true;
 
 	var zip = new JSZip();
 	// save annotations to a file for each image
