@@ -202,13 +202,20 @@ function init() {
 	// DEBUG display tutorial from the start
 	//displayTutorial();
 
-	// check local storage for the user id
-	userId = localStorage.getItem('user');
-	userId = "dummyuser"
+	// check local storage for the candidate id
+	candidateId = localStorage.getItem('candidateId');
 	state = loadStateFromLocalStorage();
 	if (state !== null) {
 		// load session data from the server
+		user = JSON.parse(localStorage.getItem('user'));
 		initializeTest(state);
+	} else if (candidateId !== null)
+	{
+		// load candidate data from local storage
+		user = JSON.parse(localStorage.getItem('user'));
+		displayTutorial();
+	} else {
+
 	}
 
 	// DEPRECATED

@@ -209,5 +209,7 @@ function loadStateFromLocalStorage() {
 
 function clearStateFromLocalStorage() {
 	localStorage.removeItem('state');
+	localStorage.removeItem('user');
+	localStorage.removeItem('candidateId');
 }
 
