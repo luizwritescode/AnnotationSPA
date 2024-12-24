@@ -44,6 +44,7 @@ var currentTutorialScreen = 0;
 var currentSlideshowClass = 0;
 var currentSlideshowIndex = 0;
 
+var currentBlinkingElement = null;
 
 // Function switch to next tutorial flavor text
 // it also enables/disables the next button if the user has unlocked the next screen
@@ -58,7 +59,8 @@ function nextTextTutorial() {
 	if (!unlockedTutorialSteps.includes(currentTutorialScreen + 1)) {
 		document.getElementById('next-tutorial-button').disabled = true;
 	} else {
-		showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		showBlinkingElement(ddocument.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 	}
 
 	if (currentTutorialScreen === tutorialTexts.length - 1) {
@@ -88,7 +90,7 @@ function nextTextTutorial() {
 
 			showAssistiveBox();
 			// hide tutorial arrow
-			document.getElementById('tutorial-arrow').style.display = 'none';
+			hideBlinkingElement();
 		}
 
 
@@ -112,18 +114,22 @@ function nextTextTutorial() {
 		});
 
 		if (unlockedTutorialSteps.includes(3)) {
-			showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+			//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+			showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 		} else {
-			showTutorialArrow(document.getElementById('annotation-list-tutorial').getElementsByTagName('button')[0], "top");
+			//showTutorialArrow(document.getElementById('annotation-list-tutorial').getElementsByTagName('button')[0], "top");
+			showBlinkingElement(document.getElementById('annotation-list-tutorial').getElementsByTagName('button')[0]);
 		}
 	}
 	else if (currentTutorialScreen === 3) {
 		stopEditingTutorial();
 
 		if (unlockedTutorialSteps.includes(4)) {
-			showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+			//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+			showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);	
 		} else {
-			showTutorialArrow(document.getElementById('annotation-list-tutorial').getElementsByTagName('button')[1], "top");
+			//showTutorialArrow(document.getElementById('annotation-list-tutorial').getElementsByTagName('button')[1], "top");
+			showBlinkingElement(document.getElementById('annotation-list-tutorial').getElementsByTagName('button')[1]);
 		}
 	}
 	else if (currentTutorialScreen === 4) {
@@ -136,15 +142,17 @@ function nextTextTutorial() {
 		});
 
 		if (unlockedTutorialSteps.includes(5)) {
-			showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+			//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+			showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 		} else {
-			showTutorialArrow(controlSectionTutorial.getElementsByTagName('button')[1], "top");
+			//showTutorialArrow(controlSectionTutorial.getElementsByTagName('button')[1], "top");
+			showBlinkingElement(controlSectionTutorial.getElementsByTagName('button')[1]);
 		}
 	}
 
 	else if (currentTutorialScreen === 5) {
-
-		showTutorialArrow(document.getElementById('end-tutorial1-button'));
+		//showTutorialArrow(document.getElementById('end-tutorial1-button'));
+		showBlinkingElement(document.getElementById('end-tutorial1-button'));
 	}
 
 	createAnnotationCanvas("tutorial");
@@ -164,7 +172,8 @@ function prevTextTutorial() {
 
 	// show arrow pointing to the next button if it is unlocked
 	if (unlockedTutorialSteps.includes(currentTutorialScreen + 1)) {
-		showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 	}
 
 	//Disable previous button if it is the first screen
@@ -202,7 +211,8 @@ function displayTutorial() {
 	createClassButtonsTutorial();
 	createAnnotationCanvas("tutorial");
 
-	showTutorialArrow(document.getElementById('class-buttons-tutorial').getElementsByTagName('button')[0]);
+	//showTutorialArrow(document.getElementById('class-buttons-tutorial').getElementsByTagName('button')[0]);
+	showBlinkingElement(document.getElementById('class-buttons-tutorial').getElementsByTagName('button')[0]);
 }
 
 
@@ -233,10 +243,23 @@ function showTutorialText(currentTutorialScreen) {
 	tutorialDiv.appendChild(centerDiv);
 }
 
+function showBlinkingElement(element) {
+	if (currentBlinkingElement !== null)
+		currentBlinkingElement.classList.remove('blinking-border');
+
+	element.classList.add('blinking-border');
+	currentBlinkingElement = element;
+}
+
+function hideBlinkingElement() {
+	currentBlinkingElement.classList.remove('blinking-border');
+	currentBlinkingElement = null;
+}
+
 function showTutorialArrow(element, position = "left") {
 
 	let tutorialArrow = document.getElementById('tutorial-arrow')
-
+	
 
 	let x = element.offsetLeft;
 	let y = element.offsetTop;
@@ -262,6 +285,8 @@ function showTutorialArrow(element, position = "left") {
 	tutorialArrow.style.top = y + 'px';
 	tutorialArrow.style.display = 'block';
 	tutorialArrow.style.position = 'absolute';
+
+	currentElementTutorialArrow = element;
 }
 
 function showAssistiveBox() {
@@ -460,7 +485,8 @@ function finishDrawingTutorial(event) {
 			assistiveCursor.remove();
 		}
 
-		showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 	}
 
 }
@@ -610,7 +636,8 @@ function chooseClassButtonTutorial() {
 
 		unlockTutorialStep(1);
 
-		showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 	}
 
 	// if (isEditing) {
@@ -680,7 +707,8 @@ function removeAnnotationTutorial(imageId, annotation, annotationItem, rectangle
 		document.getElementById("next-tutorial-button").disabled = false;
 		unlockTutorialStep(4);
 
-		showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 	}
 
 }
@@ -854,7 +882,8 @@ function editAnnotationTutorial(annotation, rectangleId) {
 
 
 
-		showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 
 	}
 }
@@ -864,7 +893,8 @@ function nextImageTutorial() {
 	if (currentTutorialScreen === 4) {
 		document.getElementById("next-tutorial-button").disabled = false;
 		unlockTutorialStep(5);
-		showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		//showTutorialArrow(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
+		showBlinkingElement(document.getElementById('tutorial-text-control').getElementsByTagName('button')[1]);
 		let assistiveBox = document.getElementsByClassName('assistive-box')[0];
 		if (assistiveBox !== undefined) {
 			assistiveBox.remove();
@@ -1036,9 +1066,7 @@ document.getElementById('end-tutorial1-button').addEventListener('click', functi
 	document.getElementById('class-buttons-tutorial').parentElement.style.display = 'none';
 	document.getElementById('tutorial-text').style.display = "none";
 	document.getElementById('tutorial-text-control').style.display = 'none';
-	this.style.display = 'none';
-	document.getElementById('tutorial-arrow').style.display = 'none';
-	
+	this.style.display = 'none';	
 	
 	// show instructions for the second tutorial
 	document.getElementById('tutorial1-end').classList.remove('hidden');

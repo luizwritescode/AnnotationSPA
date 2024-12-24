@@ -195,25 +195,17 @@
 				<button id="back-button" class="btn hidden">Voltar</button>
 			</div>
 			<div style="display:flex;justify-content: center; width: 100%; flex:12;">
-				<h1 class="title">Tutorial</h1>
+				<h5 class="title">Tutorial</h5>
 			</div>
 			<div style="display:flex; flex: 3;justify-content: center;align-items: center;">
-				<button id="end-tutorial1-button" class="btn btn-large" style="display: flex;" "disabled">Continuar</button>
+				<button id="end-tutorial1-button" class="btn btn-large" style="display: flex;" disabled>Continuar</button>
 				<button id="next-tutorial2-button" class="btn btn-large hidden" disabled>Continuar</button>
 			</div>
 
 		</header>
 
-		<div id="tutorial-text" style="display: block;">
-			
-				
-		</div>
-			
-		<div id="tutorial-text-control" class="row m-5">
-			<button id="prev-tutorial-button" class="btn" disabled>Anterior</button>
-			
-			<button id="next-tutorial-button" class="btn">Próximo</button>
-		</div>
+		
+		
 		
 		<div id="annotation-container-tutorial" style="display: flex; flex-direction: row;flex:12;	">
 
@@ -238,6 +230,19 @@
 					
 				</div>
 				
+				<!-- TUTORIAL INFO TEXT -->
+				<div class="col">
+					<div id="tutorial-text" style="display: block;">
+					
+						
+					</div>
+						
+					<div id="tutorial-text-control" class="row m-5">
+						<button id="prev-tutorial-button" class="btn" disabled>&larr;</button>
+						
+						<button id="next-tutorial-button" class="btn">&rarr;</button>
+					</div>
+				</div>
 			</aside>
 			
 		</div>
@@ -251,30 +256,29 @@
 			
 				<h2 id="class-slideshow-name">Sem defeito</h2>
 
-				<div class="center">
-					<div class="div-bg container">
+
+				<div class="center row">
+					<div class="div-bg container" style="flex: 1; margin: 3rem;">
 						<p id="class-slideshow-description">Uma peça categorizada como "Sem defeito" apresenta uma superfície sem imperfeições. A superfície sem defeito é lisa e uniforme. A anotação para este defeito é feita delimitando a peça <span class='important-text'>INTEIRA</span> dentro da caixa. Cada peça só pode ter no máximo uma anotação "Sem defeito".</p>
 
 					</div>
+					<div class="row" style="flex: 4;">
+						<button id="prev-image-slideshow-button" class="btn">
+							<span>&larr;</span>
+							
+						</button>
+						<img src="img/tutorial/sem_defeito/sem_defeito0.jpg" class="slideshow-image" alt="">
+						<button id="next-image-slideshow-button" class="btn">
+							<span>&rarr;</span>
+						</button>
+					</div>
 				</div>
 				
-				<div class="row">
-					<button id="prev-image-slideshow-button" class="btn">
-						<span>&larr;</span>
-						
-					</button>
-					<img src="img/tutorial/sem_defeito/sem_defeito0.jpg" class="slideshow-image" alt="">
-					<button id="next-image-slideshow-button" class="btn">
-						<span>&rarr;</span>
-					</button>
-				</div>
+				
 
 				<div id="slideshow-image-counter">
 					<span>1/5</span>
 				</div>
-
-
-
 		</div>
 
 
@@ -344,7 +348,7 @@
 
 		</div>
 
-		<div id="tutorial-arrow">&rarr;</div>
+		<!-- <div id="tutorial-arrow">&rarr;</div> -->
 		
 	</div>
 
