@@ -108,6 +108,9 @@ function initializeTest(state = null, testSize = 30) {
 
 	annotations = state ? state.annotations : {};
 
+	// hides the "show answers" button
+	document.getElementById('show-answer-button').style.display = "none";
+
 	switchScreen('annotate-screen');
 
 	createOverlay(hasLoader = true);

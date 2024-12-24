@@ -892,12 +892,11 @@ function nextClassSlideshow() {
 
 	currentSlideshowIndex = 0;
 	currentSlideshowClass++;
-
 	if (currentSlideshowClass === slideshowClasses.length) {
 		document.getElementById('class-slideshow-tutorial').classList.add('hidden');
-		document.getElementById('next-tutorial2-button').disabled = false
-		document.getElementById('tutorial-end').classList.remove('hidden');
+		document.getElementById('next-tutorial2-button').classList.add('hidden');
 		document.getElementById('back-button').classList.add('hidden');
+		document.getElementById('tutorial-end').classList.remove('hidden');
 
 		return;
 	}

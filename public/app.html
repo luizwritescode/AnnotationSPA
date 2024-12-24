@@ -60,9 +60,9 @@
 					<p id="timer" style="display: none;">00:00:00</p>
 
 				</div>
-				<div style="display:flex;justify-content: center; width: 100%; flex:12;">
-					<h5 class="title">Anotações em Imagem</h1>
 
+				<div style="display:flex;justify-content: center; width: 100%; flex:12;">
+					<span class="title">Anote <span class="important-text">TODAS</span> as imagens para habilitar o botão finalizar. Algumas imagens podem conter <span class="important-text">MAIS DE UMA</span> anotação.</span>
 				</div>
 
 				<div style="flex:1;">
@@ -91,7 +91,9 @@
 
 
 					
-					<div id="ground-truth-indicator"><h5>RESPOSTA</h5></div>
+					<div id="ground-truth-indicator">
+						<button id="show-answer-button" class="btn btn-small">MOSTRAR RESPOSTA</button>
+					</div>
 					<div id="image-container" class="image-container">
 						<img id="annotation-image" src="" alt="Imagem a ser anotada">
 						<div id="annotation-area"></div>
@@ -100,12 +102,17 @@
 				</div>
 				<aside id="control-section">
 					<div class="annotation-list-item">
-						<p id="image-counter">Imagem 1/10</p>
+						<div class="col">
+							<div class="space-around">
+								<p id="image-counter">Imagem 1/10</p>
+								<button id="previous-button" class="btn">Anterior</button>
+								<button id="next-button" class="btn">Próxima</button>
+							</div>
 
-						<button id="previous-button" class="btn">Anterior</button>
-						<button id="next-button" class="btn">Próxima</button>
-
-
+							<div>
+								<p>Faltam anotar <span id=remaining-counter>0</span> imagens</p>
+							</div>
+						</div>
 						
 					</div>
 					
@@ -277,7 +284,7 @@
 					
 					<p>
 
-						A pesquisa consiste em anotar imagens de peças industriais, identificando seus defeitos, ou a falta deles. Para isso, vamos demonstrar as cinco classes de defeito disponíveis para anotação. Cada imagem vai requerir pelo menos <span class="important-text">UMA OU MAIS</span> anotações a serem feitas. 
+						A pesquisa consiste em anotar imagens de peças industriais, identificando seus defeitos, ou a falta deles. Para isso, vamos demonstrar as cinco classes de defeito disponíveis para anotação. Cada imagem vai requerer pelo menos <span class="important-text">UMA OU MAIS</span> anotações a serem feitas. 
 					</p>
 				</div>
 			</div>
@@ -322,7 +329,7 @@
 
 						<p>Você concluiu o tutorial. Agora que sabe tanto como operar este aplicativo, quanto o objetivo da pesquisa, vamos verificar sua taxa de aprendizagem. Nesta próxima seção vamos pedir para você anotar cinco imagens pré-definidas como um exercício de fixação para o verdadeiro teste. Anote sem medo de errar pois sua performance aqui não será registrada. Para liberar o botão de Finalizar e começar o teste, faça pelo menos uma anotação em cada imagem.</p>
 						<br>
-						<p>Para agilizar o processo e facilitar o uso do aplicativo os seguintes atalhos serão abilitados</p>
+						<p>Para agilizar o processo e facilitar o uso do aplicativo os seguintes atalhos serão habilitados</p>
 						<ul>
 							<li>Setas direcionais para navegar entre as imagens</li>
 							<li>Números de 1 a 5 para selecionar a classe de defeito</li>
@@ -346,7 +353,7 @@
 		<div class="center mv-10">
 			<h2>Agora é a hora do teste</h2>
 			<div class="div-bg container">
-				<p class="center-text">Você concluiu o treinamento com sucesso. Agora vamos dar prosseguimento à pesquisa. Nesta próxima seção vamos pedir para você anotar cinquenta imagens escolhidas aleatóriamente do nosso banco de dados. Tenha muita atenção ao anotar as imagens porque os seus resultados vão ser de absoluta importância para pesquisa. Para liberar o botão de Finalizar e começar o teste, faça pelo menos uma anotação em cada imagem.</p>
+				<p class="center-text">Você concluiu o treinamento com sucesso. Agora vamos dar prosseguimento à pesquisa. Nesta próxima seção vamos pedir para você anotar 30 imagens escolhidas do nosso banco de dados. Tenha muita atenção ao anotar as imagens porque os seus resultados vão ser de absoluta importância para pesquisa. <span class="important-text">Para habilitar o botão de finalizar o teste, faça pelo menos uma anotação em cada imagem</span>.</p>
 			</div>
 		</div>
 		

@@ -12,6 +12,7 @@ const annotationList = document.getElementById("annotation-list");
 const nextButton = document.getElementById("next-button");
 const previousButton = document.getElementById("previous-button");
 const finishButton = document.getElementById("finish-button");
+const showAnswerButton = document.getElementById("show-answer-button");
 
 var trainingMode = false;
 var isPointerLocked = false;
@@ -38,10 +39,23 @@ var startTimestamp = null
 
 var groundTruthSeen = false
 
+// returns the integer value of how many images are left without annotations
+function getRemainingImages(length = 30) {
+	let vals = Object.values(annotations)
+	let count = 0;
+	vals.forEach(annot => {
+		if (annot.length != 0) {
+			count++;
+		}
+	});
+	debugger;
+	return length - count;
+}
 
 function loadImages(_images) {
 	images = _images;
 	document.getElementById("image-counter").innerHTML = (currentIndex + 1) + "/" + images.length;
+	document.getElementById("remaining-counter").innerHTML = getRemainingImages(images.length);
 	showImage(images[currentIndex]);
 	//console.log(images[currentIndex]["image_path"])
 }
@@ -61,7 +75,7 @@ async function useAllTestImages(manifestPath, target="test30") {
 			});
 
 			document.getElementById("image-counter").innerHTML = (currentIndex + 1) + "/" + images.length;
-			
+			document.getElementById("remaining-counter").innerHTML = getRemainingImages(images.length);
 
 			return Promise.resolve(testImages);
 		})
@@ -178,6 +192,7 @@ function loadTrainingImages() {
 
 
 	document.getElementById("image-counter").innerHTML = (currentIndex + 1) + "/" + trainingImages.length;
+	document.getElementById("remaining-counter").innerHTML = getRemainingImages(trainingImages.length);
 	showImage(trainingImages[currentIndex]);
 	return trainingImages;
 }
@@ -196,7 +211,7 @@ function showImage(image) {
 	isEditing = false;
 	isDrawing = false;
 	groundTruthSeen = false;
-	document.getElementById("ground-truth-indicator").children[0].style.display = "none";
+	//document.getElementById("ground-truth-indicator").children[0].style.display = "none";
 
 
 	// add the annotations for this image
@@ -259,11 +274,9 @@ function renderRectangle(annot) {
 	return rect
 }
 
-
+// hides user annotations and  shows the answer while the button is pressed
 function showGroundTruthAnnotations(image) {
-	// show ground truth indicator
-	document.getElementById("ground-truth-indicator").children[0].style.display = "flex";
-
+	annotationArea.classList.add("answer-overlay");
 
 	// remove the previous annotations
 	annotationList.innerHTML = "";
@@ -282,19 +295,34 @@ function showGroundTruthAnnotations(image) {
 		rect = renderRectangle(annot);
 	}
 }
+
+// hides the answer and shows the user annotations back again
+function hideGroundTruthAnnotations() {
+	annotationArea.classList.remove("answer-overlay");	
+
+	// remove all rectangles from annotation area
+	annotationArea.innerHTML = "";
+	annotationList.innerHTML = "";
+
+	// reset modes
+	isEditing = false;
+	isDrawing = false;
+
+	// render the annotations for the current image
+	if (annotations[currentImageId] !== undefined) {
+		for (var i = 0; i < annotations[currentImageId].length; i++) {
+			annot = annotations[currentImageId][i];
+			// render the rectangle
+			rect = renderRectangle(annot);
+			// add the annotation to the annotation list
+			addAnnotation(currentImageId, annot, rect.id);
+		}
+	}
+}
+
+
 function nextImage() {
 	debugger
-	if (trainingMode && !groundTruthSeen && currentIndex < images.length) {
-
-		groundTruthSeen = true;
-
-		// show the ground truth annotations
-		showGroundTruthAnnotations(images[currentIndex]);
-
-		return;
-	}
-
-
 	if (currentIndex < images.length - 1) {
 		currentIndex++;
 		document.getElementById("image-counter").innerHTML = (currentIndex + 1) + "/" + images.length;
@@ -415,6 +443,9 @@ function addAnnotation(imageId, annotation, rectangleId) {
 		var imageFilename = image.src.split("/").pop();
 
 		removeAnnotation(imageFilename, annotation, annotationItem, rectangleId);
+
+		// update the UI counters
+		document.getElementById("remaining-counter").innerHTML = getRemainingImages(images.length);
 	}
 
 	buttons.appendChild(deleteButton);
@@ -874,12 +905,16 @@ function finishDrawing(event) {
 	annotations[imageFilename].push(annotation);
 
 	addAnnotation(imageFilename, annotation, rectangle.id);
+	
+	// update the UI counters
+	document.getElementById("remaining-counter").innerHTML = getRemainingImages(images.length);
 
+	// reset vars for next drawing
 	rectangle = undefined;
 
 	saveStateToLocalStorage();
 
-
+	// enable finish button if all images have annotations
 	if (checkIfFinished()) {
 		document.getElementById('finish-button').disabled = false;
 	}
@@ -970,6 +1005,8 @@ document.addEventListener("pointerlockchange", function () {
 nextButton.addEventListener("click", nextImage);
 previousButton.addEventListener("click", previousImage);
 finishButton.addEventListener("click", finishAnnotating);
+showAnswerButton.addEventListener("mousedown", () => showGroundTruthAnnotations(images[currentIndex]));
+showAnswerButton.addEventListener("mouseup", () => hideGroundTruthAnnotations());
 
 annotationArea.addEventListener("mousedown", startDrawing);
 annotationArea.addEventListener("mousemove", drawRectangle);
