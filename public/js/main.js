@@ -95,8 +95,6 @@ function initializeTest(state = null, testSize = 30) {
 	trainingMode = false; // enables saving state to local storage
 	//trainingMode = true; // JUST FOR DEBUG REMOVE THIS LINE LATER AND UNCOMMENT THE LINE ABOVE
 
-	testLength = testSize;
-
 	currentIndex = state ? state.currentIndex : 0;
 	currentImageId = state ? state.currentImageId : "";
 	images = state ? images : [];
@@ -118,13 +116,16 @@ function initializeTest(state = null, testSize = 30) {
 	// if we don't have a state we need to pick the images to be annotated and load them
 	if(state === null) {
 		
-		imagesPerClass = Math.floor(testSize / 5);
+
 
 		// use pickTestImages to select a balanced subset the images to be annotated
 		// use useAllTestImages to select all of the images in the subset
-		useAllTestImages("dataset/manifest.json", "test30", imagesPerClass, debugMode = true)
+		useAllTestImages("dataset/manifest.json", "test30", useBonus = true, debugMode = false)
 		.then(function (pickedImages) {
 			loadImages(pickedImages);	
+
+			testLength = pickedImages.length;
+			console.log("Test loaded with size: " + testLength);
 			disableOverlay();
 		});
 	} else {

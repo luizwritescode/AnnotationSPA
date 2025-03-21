@@ -61,7 +61,7 @@ function loadImages(_images) {
 }
 
 // IM NOT SURE IF THIS SHOULD RANDOMIZE THE IMAGE ORDER
-async function useAllTestImages(manifestPath, target="test30") {
+async function useAllTestImages(manifestPath, target="test30", useBonus=false, debugMode=false) {
 	return fetch(manifestPath)
 		.then(response => response.json())
 		.then(data => {
@@ -73,6 +73,16 @@ async function useAllTestImages(manifestPath, target="test30") {
 				img.ground_truth = imageData["annotation_data"];
 				testImages.push(img);
 			});
+			
+			// includes bonus test images with not seen before ground truth annotations
+			if (useBonus) {
+				data["testbonus"].forEach(function (imageData) {
+					const img = new Image();
+					img.src = imageData["image_path"];
+					img.ground_truth = imageData["annotation_data"];
+					testImages.push(img);
+				});
+			}
 
 			document.getElementById("image-counter").innerHTML = (currentIndex + 1) + "/" + images.length;
 			document.getElementById("remaining-counter").innerHTML = getRemainingImages(images.length);
